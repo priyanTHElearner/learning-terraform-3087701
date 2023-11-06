@@ -41,7 +41,7 @@ resource "aws_instance" "blog" {
   instance_type = var.instance_type
   vpc_security_group_ids = [module.priyan_sg.security_group_id]
 
-  subnet_id = module.auto_vpc.public_subnets 
+  subnet_id = module.auto_vpc.public_subnets[0] 
 
   tags = {
     Name = "Learning Terraform"
