@@ -48,6 +48,46 @@ resource "aws_instance" "blog" {
   }
 }
 
+module "alb" {
+  source = "terraform-aws-modules/alb/aws"
+
+  name    = "priyan-alb"
+  vpc_id  = "module.auto_vpc.vpc_id"
+  subnets = "module.auto_vpc.public_subnets"
+  security_group = module.priyan_sg.security_group_id
+
+
+  listeners = {
+    ex-http-https-redirect = {
+      port     = 80
+      protocol = "HTTP"
+      redirect = {
+        port        = "443"
+        protocol    = "HTTPS"
+        status_code = "HTTP_301"
+      }
+    }
+  }
+
+  target_groups = {
+    ex-instance = {
+      name_prefix      = "priyan_target"
+      backend_protocol = "HTTP"
+      backend_port     = 80
+      target_type      = "instance"
+       my_target = {
+         target_id = aws_instance.blog.id
+         port = 80
+       }
+    }
+  }
+
+  tags = {
+    Environment = "Development"
+    Project     = "Example"
+  }
+}
+
 
 module "priyan_sg" {
   source  = "terraform-aws-modules/security-group/aws"
