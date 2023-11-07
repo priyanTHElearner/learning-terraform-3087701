@@ -52,8 +52,8 @@ module "alb" {
   source = "terraform-aws-modules/alb/aws"
 
   name    = "priyan-alb"
-  vpc_id  = "module.auto_vpc.vpc_id"
-  subnets = "module.auto_vpc.public_subnets"
+  vpc_id  = module.auto_vpc.vpc_id
+  subnets = module.auto_vpc.public_subnets
   security_groups = module.priyan_sg.security_group_id
 
 
