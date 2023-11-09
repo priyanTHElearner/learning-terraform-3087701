@@ -72,12 +72,12 @@ module "alb" {
   }
 
   target_groups = [
-    
+    {
       name_prefix      = "priyan_target"
       backend_protocol = "HTTP"
       backend_port     = 80
       target_type      = "instance"
-       my_target = {
+       my_target = 
          target_id = aws_instance.blog.id
          port = 80
        }
