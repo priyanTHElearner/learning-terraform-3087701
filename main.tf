@@ -69,8 +69,8 @@ module "alb" {
     }
   }
 
-  target_groups = {
-    ex-instance = {
+  target_groups = [
+    
       name_prefix      = "priyan_target"
       backend_protocol = "HTTP"
       backend_port     = 80
@@ -79,7 +79,7 @@ module "alb" {
          target_id = aws_instance.blog.id
          port = 80
        }
-    }
+  ]
   }
 
   tags = {
